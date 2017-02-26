@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Task Manager</title>
+</head>
+<body>
+<script type="text/javascript">
+    var source = new EventSource("all-task.flux")
+    source.addEventListener('message', function(e) {
+        console.log(new Date().getTime());
+        console.log(e.data);
+    }, false);
+
+    source.addEventListener('open', function(e) {
+        console.log("open");
+    }, false);
+
+    source.addEventListener('error', function(e) {
+        if (e.readyState == EventSource.CLOSED) {
+            console.log("close");
+        }
+    }, false);
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+
+${AnsiColor.BRIGHT_BLUE} .---.  .--.   .----..-. .-.   .-.   .-.  .--.  .-. .-.  .--.   .---. .----..----.
+${AnsiColor.BRIGHT_BLUE}{_   _}/ {} \ { {__  | |/ /    |  `.'  | / {} \ |  `| | / {} \ /   __}| {_  | {}  }
+${AnsiColor.BRIGHT_BLUE}  | | /  /\  \.-._} }| |\ \    | |\ /| |/  /\  \| |\  |/  /\  \\  {_ }| {__ | .-. \
+${AnsiColor.BRIGHT_BLUE}  `-' `-'  `-'`----' `-' `-'   `-' ` `-'`-'  `-'`-' `-'`-'  `-' `---' `----'`-' `-'
+${AnsiStyle.NORMAL}Spring WebFlux to create a simple reactive web application
+${AnsiColor.BRIGHT_RED}:: Running Spring Boot ${spring-boot.version} ::${AnsiStyle.NORMAL}

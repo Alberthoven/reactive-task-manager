@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,20 @@ import reactor.core.publisher.Mono;
 
 @RestController
 public class CreateATask {
+
+
+
+    private final  static Function<? super FluxSink<OperationStatus>, Consumer<Throwable>> errorHandler = fluxSink -> error -> {
+        fluxSink.next(OperationStatus.ERROR);
+        fluxSink.error(error);
+        fluxSink.complete();
+    };
+
+    private final  static  Function<? super FluxSink<OperationStatus>, Consumer<Task>> successHandler = fluxSink ->  error -> {
+        fluxSink.next(OperationStatus.SUCCESS);
+        fluxSink.complete();
+    };
+
 
     private final TaskStorer taskStorer;
     private final TeamRetriever teamRetriever;
@@ -39,9 +54,8 @@ public class CreateATask {
         Consumer<? super FluxSink<OperationStatus>> statusEmitter = e -> {
             e.next(OperationStatus.START);
             teamMono.subscribe(t -> {
-                taskStorer.save(new Task(UUID.randomUUID().toString(), t, dueDate, newTask.getTitle()));
-                e.next(OperationStatus.SUCCESS);
-                e.complete();
+                Mono<Task> saved = taskStorer.save(new Task(UUID.randomUUID().toString(), t, dueDate, newTask.getTitle()));
+                saved.subscribe(successHandler.apply(e), errorHandler.apply(e));
             });
         };
         return Flux.create(statusEmitter);

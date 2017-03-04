@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import es.juandavidvega.entity.Team;
 import es.juandavidvega.model.Task;
 import es.juandavidvega.repository.crud.TaskRepository;
+import reactor.core.publisher.Mono;
 
 @Repository
 public class TaskStorer {
@@ -17,7 +18,7 @@ public class TaskStorer {
         this.taskRepository = taskRepository;
     }
 
-    public void save(Task task) {
+    public Mono<Task> save(Task task) {
         es.juandavidvega.entity.Task entityTask = new es.juandavidvega.entity.Task();
         entityTask.setDueDate(task.getDueDate());
         entityTask.setId(task.getId());
@@ -26,6 +27,11 @@ public class TaskStorer {
         team.setName(task.getTeam().getName());
         entityTask.setTeam(team);
         entityTask.setTitle(task.getTitle());
-        taskRepository.save(entityTask);
+        return taskRepository.save(entityTask).map(this::map);
+    }
+
+    private Task map(es.juandavidvega.entity.Task entity) {
+        es.juandavidvega.model.Team team = new es.juandavidvega.model.Team(entity.getTeam().getId(), entity.getTeam().getName());
+        return new Task(entity.getId(), team, entity.getDueDate(), entity.getTitle());
     }
 }

@@ -1,5 +1,7 @@
 package es.juandavidvega.repository.write;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +23,7 @@ public class TaskStorer {
     public Mono<Task> save(Task task) {
         es.juandavidvega.entity.Task entityTask = new es.juandavidvega.entity.Task();
         entityTask.setDueDate(task.getDueDate());
-        entityTask.setId(task.getId());
+        entityTask.setId(UUID.randomUUID().toString());
         Team team = new Team();
         team.setId(task.getTeam().getId());
         team.setName(task.getTeam().getName());

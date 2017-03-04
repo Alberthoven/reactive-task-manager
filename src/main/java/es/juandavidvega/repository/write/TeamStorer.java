@@ -19,7 +19,6 @@ public class TeamStorer {
         this.repository = repository;
     }
 
-    @Transactional
     public Mono<es.juandavidvega.model.Team> save (NewTeam newTeam) {
         Random r = new Random();
         es.juandavidvega.entity.Team entity = new es.juandavidvega.entity.Team();

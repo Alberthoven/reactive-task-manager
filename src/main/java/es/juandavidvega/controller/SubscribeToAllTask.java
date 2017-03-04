@@ -5,24 +5,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.juandavidvega.model.Task;
-import es.juandavidvega.repository.ReactiveTaskRepository;
+import es.juandavidvega.repository.read.TaskRetriever;
 import reactor.core.publisher.Flux;
 
 @RestController
 public class SubscribeToAllTask {
 
-    private final ReactiveTaskRepository reactiveTaskRepository;
+    private final TaskRetriever taskRetriever;
 
     @Autowired
-    public SubscribeToAllTask(ReactiveTaskRepository reactiveTaskRepository) {
-        this.reactiveTaskRepository = reactiveTaskRepository;
+    public SubscribeToAllTask(TaskRetriever taskRetriever) {
+        this.taskRetriever = taskRetriever;
     }
 
     @GetMapping(path = "all-task.flux", produces = "text/event-stream")
     public Flux<Task> all () {
-        Flux<Task> existingTask = Flux.fromIterable(reactiveTaskRepository.loadAll());
-        Flux<Task> newTaskEmitter = Flux.create(emitter -> reactiveTaskRepository.onNew(emitter::next));
-        return Flux.mergeSequential(existingTask, newTaskEmitter);
+        return taskRetriever.findAll();
     }
 
 }

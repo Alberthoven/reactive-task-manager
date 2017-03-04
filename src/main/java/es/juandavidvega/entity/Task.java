@@ -1,18 +1,32 @@
-package es.juandavidvega.model;
+package es.juandavidvega.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.Id;
+
+
 public class Task {
 
-    private final String id;
-    private final Team team;
-    private final LocalDateTime dueDate;
-    private final String title;
+    @Id
+    private String id;
+    private Team team;
+    private LocalDateTime dueDate;
+    private String title;
 
-    public Task(String id, Team team, LocalDateTime dueDate, String title) {
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 

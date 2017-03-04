@@ -1,9 +1,5 @@
 package es.juandavidvega.controller;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,26 +7,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.juandavidvega.dto.input.NewTeam;
-import es.juandavidvega.model.Team;
-import es.juandavidvega.repository.TeamRepository;
+import es.juandavidvega.dto.output.OperationStatus;
+import es.juandavidvega.entity.Team;
+import es.juandavidvega.repository.write.TeamStorer;
+import es.juandavidvega.services.TeamCreation;
 
 @RestController
 public class CreateATeam {
 
 
-    private final TeamRepository repository;
+    private final TeamCreation creation;
 
     @Autowired
-    public CreateATeam(TeamRepository repository) {
-        this.repository = repository;
+    public CreateATeam(TeamCreation creation) {
+        this.creation = creation;
     }
 
     @RequestMapping(path = "create-a-team", method = RequestMethod.POST)
-    public Team create (@RequestBody NewTeam newTeam) {
-        Random r = new Random();
-        Team team = new Team(r.nextInt(), newTeam.getName());
-        repository.save(team);
-        return team;
+    public OperationStatus create (@RequestBody NewTeam newTeam) {
+        creation.newTeam(newTeam);
+        return OperationStatus.SUCCESS;
     }
 
 }

@@ -19,7 +19,7 @@ public class TaskRetriever {
     }
 
     public Flux<Task> findAll() {
-        return taskRepository.findAll().map(this::map);
+        return taskRepository.findWithTailableCursorBy().map(this::map);
     }
 
     private Task map(es.juandavidvega.entity.Task entity) {

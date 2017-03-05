@@ -25,3 +25,10 @@ Use Flux and Server Side Event to load new task on client side.
 * Spring Boot 2.0
 * Spring Data 2.0 M1-Kay (MongoDB)
 
+#### Usage:
+
+1. Create Data Base
+
+```docker run --name reactive-task-mongo -e "MONGODB_DBNAME=reactivedb" -d mongo```
+
+2. Import project on your favorite IDE and run as normal Spring Boot application.

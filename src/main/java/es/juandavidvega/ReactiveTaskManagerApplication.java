@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
@@ -15,15 +14,10 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 
-import lombok.RequiredArgsConstructor;
-
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class })
 @EnableReactiveMongoRepositories
 @AutoConfigureAfter(EmbeddedMongoAutoConfiguration.class)
-@RequiredArgsConstructor
 public class ReactiveTaskManagerApplication extends AbstractReactiveMongoConfiguration {
-
-	private final MongoProperties mongoProperties;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReactiveTaskManagerApplication.class, args);
